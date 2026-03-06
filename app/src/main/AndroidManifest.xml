@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.souls">
+
+    <!-- ── Network ──────────────────────────────────────────────────────────── -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- ── Bluetooth (LAMP discovery) ───────────────────────────────────────── -->
+    <uses-permission android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN"
+        android:usesPermissionFlags="neverForLocation" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+
+    <!-- ── Firewall / VPN ────────────────────────────────────────────────────── -->
+    <!-- Required to establish a local VPN tunnel for packet inspection -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+
+    <!-- Auto-start firewall after device reboot -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- Scan installed packages to detect mod APKs by package name / signature.
+         Requires justification in Play Store listing if distributed there. -->
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+        tools:ignore="QueryAllPackagesPermission" />
+
+    <!-- Read network usage stats to map UIDs to traffic (Android 10+) -->
+    <uses-permission android:name="android.permission.READ_NETWORK_USAGE_HISTORY" />
+
+    <!-- Post mod-detection notifications (Android 13+) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Souls"
+        android:usesCleartextTraffic="false">
+
+        <!-- ════════════════════════════════════════════════════════════════════
+             ACTIVITIES
+             ════════════════════════════════════════════════════════════════════ -->
+
+        <!-- Entry point — checks device registration via GET /device/:deviceKey -->
+        <activity
+            android:name=".activities.SplashActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Souls.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Onboarding carousel (first-launch only) -->
+        <activity
+            android:name=".activities.OnboardingActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- Login — device key check, routes to LAMP or dashboard -->
+        <activity
+            android:name=".activities.LoginActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- LAMP connection & fingerprint polling -->
+        <activity
+            android:name=".activities.LampConnectActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- Name entry + POST /soul/finalize -->
+        <activity
+            android:name=".activities.RegisterActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- Soul dashboard (GET /soul/by-device + GET /validate) -->
+        <activity
+            android:name=".activities.MainActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- Full Soul ID + live chain data (GET /soul/:soulId) -->
+        <activity
+            android:name=".activities.SoulIdActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- Profile: all local + API-sourced fields -->
+        <activity
+            android:name=".activities.ProfileActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- Receive: share Soul ID / Block Hash -->
+        <activity
+            android:name=".activities.ReceiveActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- Soul Lookup: GET /soul/:soulId by entering any Soul ID -->
+        <activity
+            android:name=".activities.SendActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- Settings: chain status, firewall toggle, logout -->
+        <activity
+            android:name=".activities.SettingsActivity"
+            android:screenOrientation="portrait" />
+
+        <!-- ════════════════════════════════════════════════════════════════════
+             FIREWALL — VPN SERVICE
+             The system VPN permission dialog is shown automatically by
+             VpnService.prepare() in SettingsActivity before this starts.
+             android.permission.BIND_VPN_SERVICE is a signature-level permission
+             held only by the system; declaring it here protects the service
+             from being bound by third-party apps.
+             ════════════════════════════════════════════════════════════════════ -->
+        <service
+            android:name=".vpn.AppFirewallVpnService"
+            android:permission="android.permission.BIND_VPN_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.net.VpnService" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".vpn.FirewallMonitorService"
+            android:foregroundServiceType="dataSync"
+            android:exported="false" />
+
+        <receiver
+            android:name=".vpn.BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+</manifest>

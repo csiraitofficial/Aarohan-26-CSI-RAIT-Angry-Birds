@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Onboarding slide 2: Wallet illustration -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="160dp"
+    android:viewportWidth="200"
+    android:viewportHeight="160">
+
+    <!-- Wallet body shadow -->
+    <path
+        android:fillColor="#1A2A4A"
+        android:pathData="M34,54 Q34,50 38,50 L162,50 Q166,50 166,54 L166,116 Q166,120 162,120 L38,120 Q34,120 34,116 Z" />
+
+    <!-- Wallet body -->
+    <path
+        android:fillColor="#1E3060"
+        android:pathData="M30,50 Q30,46 34,46 L158,46 Q162,46 162,50 L162,112 Q162,116 158,116 L34,116 Q30,116 30,112 Z" />
+
+    <!-- Card slot -->
+    <path
+        android:fillColor="#2A4080"
+        android:pathData="M30,60 L162,60 L162,92 L30,92 Z" />
+
+    <!-- Card in slot -->
+    <path
+        android:fillColor="#3D7EFF"
+        android:fillAlpha="0.8"
+        android:pathData="M38,64 Q38,62 40,62 L130,62 Q132,62 132,64 L132,88 Q132,90 130,90 L40,90 Q38,90 38,88 Z" />
+
+    <!-- Card chip -->
+    <path
+        android:fillColor="#FFD700"
+        android:fillAlpha="0.9"
+        android:pathData="M48,70 Q48,68 50,68 L64,68 Q66,68 66,70 L66,82 Q66,84 64,84 L50,84 Q48,84 48,82 Z" />
+    <path
+        android:strokeColor="#CC9900"
+        android:strokeWidth="1"
+        android:fillColor="#00000000"
+        android:pathData="M51,72 L63,72 M51,76 L63,76 M51,80 L63,80 M55,68 L55,84 M59,68 L59,84" />
+
+    <!-- Contactless symbol on card -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.5"
+        android:fillColor="#00000000"
+        android:strokeAlpha="0.7"
+        android:pathData="M75,72 Q80,76 75,80" />
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.5"
+        android:fillColor="#00000000"
+        android:strokeAlpha="0.5"
+        android:pathData="M79,70 Q86,76 79,82" />
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="1.5"
+        android:fillColor="#00000000"
+        android:strokeAlpha="0.3"
+        android:pathData="M83,68 Q92,76 83,84" />
+
+    <!-- Balance area -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.15"
+        android:pathData="M38,98 L100,98 Q102,98 102,100 L102,103 Q102,105 100,105 L38,105 Q36,105 36,103 L36,100 Q36,98 38,98 Z" />
+
+    <!-- WLD coin -->
+    <path
+        android:fillColor="#3D7EFF"
+        android:pathData="M130,96 A14,14 0 1 1 130,124 A14,14 0 1 1 130,96 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.9"
+        android:pathData="M124,110 L127,104 L130,110 L133,104 L136,110" />
+
+    <!-- Coin shine -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.2"
+        android:pathData="M130,98 A12,6 0 0 1 142,104" />
+
+    <!-- Send/receive arrows -->
+    <path
+        android:fillColor="#4DFF91"
+        android:pathData="M150,55 L156,50 L162,55 L159,55 L159,65 L153,65 L153,55 Z" />
+    <path
+        android:fillColor="#FF6B6B"
+        android:pathData="M150,70 L153,70 L153,80 L159,80 L159,70 L162,70 L156,75 Z"
+        android:rotation="180"
+        android:pivotX="156"
+        android:pivotY="75"/>
+
+</vector>

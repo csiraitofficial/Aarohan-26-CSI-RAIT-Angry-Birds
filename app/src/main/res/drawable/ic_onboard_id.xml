@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Onboarding slide 1: Identity / Soul card illustration -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="160dp"
+    android:viewportWidth="200"
+    android:viewportHeight="160">
+
+    <!-- Card shadow -->
+    <path
+        android:fillColor="#1A2A4A"
+        android:pathData="M30,48 Q30,44 34,44 L166,44 Q170,44 170,48 L170,116 Q170,120 166,120 L34,120 Q30,120 30,116 Z" />
+
+    <!-- Card body -->
+    <path
+        android:fillColor="#1E3060"
+        android:pathData="M26,44 Q26,40 30,40 L162,40 Q166,40 166,44 L166,112 Q166,116 162,116 L30,116 Q26,116 26,112 Z" />
+
+    <!-- Card top accent bar -->
+    <path
+        android:fillColor="#3D7EFF"
+        android:pathData="M26,40 Q26,40 30,40 L162,40 Q166,40 166,40 L166,52 L26,52 Z"
+        android:fillAlpha="0.6"/>
+
+    <!-- Soul logo on card -->
+    <path
+        android:fillColor="#3D7EFF"
+        android:pathData="M94,56 L100,61 L100,69 L94,74 L88,69 L88,61 Z" />
+    <path
+        android:fillColor="#1E3060"
+        android:pathData="M94,59 L98,63 L98,67 L94,71 L90,67 L90,63 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M94,63 A2,2 0 1 1 94,67 A2,2 0 1 1 94,63 Z" />
+
+    <!-- Name lines -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.9"
+        android:pathData="M108,58 L152,58 Q154,58 154,60 L154,63 Q154,65 152,65 L108,65 Q106,65 106,63 L106,60 Q106,58 108,58 Z" />
+
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.4"
+        android:pathData="M108,68 L140,68 Q142,68 142,70 L142,72 Q142,74 140,74 L108,74 Q106,74 106,72 L106,70 Q106,68 108,68 Z" />
+
+    <!-- SOUL ID label -->
+    <path
+        android:fillColor="#3D7EFF"
+        android:fillAlpha="0.7"
+        android:pathData="M46,82 L90,82 Q92,82 92,84 L92,87 Q92,89 90,89 L46,89 Q44,89 44,87 L44,84 Q44,82 46,82 Z" />
+
+    <!-- Soul ID value -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.9"
+        android:pathData="M46,94 L130,94 Q132,94 132,96 L132,99 Q132,101 130,101 L46,101 Q44,101 44,99 L44,96 Q44,94 46,94 Z" />
+
+    <!-- Verified check circle -->
+    <path
+        android:fillColor="#4DFF91"
+        android:pathData="M148,82 A10,10 0 1 1 148,102 A10,10 0 1 1 148,82 Z" />
+    <path
+        android:strokeColor="#0D0D0D"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M144,92 L147,95 L152,88" />
+
+    <!-- Shine overlay -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.04"
+        android:pathData="M26,40 L80,40 L60,116 L26,116 Z" />
+
+</vector>

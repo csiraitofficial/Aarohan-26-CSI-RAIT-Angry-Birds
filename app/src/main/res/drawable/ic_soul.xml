@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Soul ID icon: stylised diamond gem (◈) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- Outer diamond outline -->
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M12,2 L20,8 L20,16 L12,22 L4,16 L4,8 Z" />
+
+    <!-- Inner cutout to make it hollow/gem-like -->
+    <path
+        android:fillColor="#3D7EFF"
+        android:pathData="M12,5.5 L17,9 L17,15 L12,18.5 L7,15 L7,9 Z" />
+
+    <!-- Center dot -->
+    <path
+        android:fillColor="@android:color/white"
+        android:pathData="M12,10 A2,2 0 1 1 12,14 A2,2 0 1 1 12,10 Z" />
+
+</vector>

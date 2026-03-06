@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- activity_send.xml repurposed as Soul Lookup screen.
+     Uses GET /soul/:soulId — no wallet, no amount, no crypto. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0D0D0D"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <!-- Top bar -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginBottom="32dp">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_vertical|start"
+            android:padding="8dp"
+            android:src="@drawable/ic_back_arrow"
+            android:contentDescription="Back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Look Up Soul"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </FrameLayout>
+
+    <!-- Soul ID input -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:text="SOUL ID"
+        android:textColor="#888888"
+        android:textSize="11sp"
+        android:letterSpacing="0.1" />
+
+    <EditText
+        android:id="@+id/et_soul_id"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/bg_edittext"
+        android:hint="e.g. SOUL-AC7EF884"
+        android:textColorHint="#555555"
+        android:inputType="text"
+        android:paddingHorizontal="16dp"
+        android:textColor="#FFFFFF"
+        android:textSize="15sp"
+        android:fontFamily="monospace" />
+
+    <!-- Error -->
+    <TextView
+        android:id="@+id/tv_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:textColor="#FF5555"
+        android:textSize="13sp"
+        android:visibility="gone" />
+
+    <!-- Lookup button -->
+    <Button
+        android:id="@+id/btn_lookup"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/bg_button_primary"
+        android:text="Look Up"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <!-- Progress -->
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone" />
+
+    <!-- Result card -->
+    <LinearLayout
+        android:id="@+id/ll_result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_action_card"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:visibility="gone">
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp" android:text="SOUL ID"
+            android:textColor="#888888" android:textSize="11sp" android:letterSpacing="0.1" />
+        <TextView android:id="@+id/tv_result_soul_id" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginBottom="12dp"
+            android:textColor="#A07CFF" android:textSize="15sp" android:fontFamily="monospace" />
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp" android:text="SOUL HASH"
+            android:textColor="#888888" android:textSize="11sp" android:letterSpacing="0.1" />
+        <TextView android:id="@+id/tv_result_soul_hash" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginBottom="12dp"
+            android:textColor="#CCCCCC" android:textSize="13sp" android:fontFamily="monospace" />
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp" android:text="BLOCK HASH"
+            android:textColor="#888888" android:textSize="11sp" android:letterSpacing="0.1" />
+        <TextView android:id="@+id/tv_result_block_hash" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginBottom="12dp"
+            android:textColor="#CCCCCC" android:textSize="13sp" android:fontFamily="monospace" />
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp" android:text="VERIFIED AT"
+            android:textColor="#888888" android:textSize="11sp" android:letterSpacing="0.1" />
+        <TextView android:id="@+id/tv_result_verified_at" android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#FFFFFF" android:textSize="14sp" />
+    </LinearLayout>
+
+</LinearLayout>

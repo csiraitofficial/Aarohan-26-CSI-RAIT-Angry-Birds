@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ── Base App Theme ────────────────────────────────────────────────── -->
+    <style name="Theme.Souls" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+
+        <!-- Colours -->
+        <item name="colorPrimary">@color/souls_accent</item>
+        <item name="colorPrimaryDark">@color/souls_bg</item>
+        <item name="colorAccent">@color/souls_accent</item>
+        <item name="colorControlHighlight">#1A3D7EFF</item>
+
+        <!-- Window -->
+        <item name="android:windowBackground">@color/souls_bg</item>
+        <item name="android:statusBarColor">@color/souls_bg</item>
+        <item name="android:navigationBarColor">@color/souls_bg</item>
+        <item name="android:windowLightStatusBar">false</item>
+
+        <!-- Transitions -->
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
+
+        <!-- Text defaults -->
+        <item name="android:textColorPrimary">@color/souls_text_primary</item>
+        <item name="android:textColorSecondary">@color/souls_text_secondary</item>
+
+    </style>
+
+    <!-- ── Splash Theme (no animation flicker) ───────────────────────────── -->
+    <style name="Theme.Souls.Splash" parent="Theme.Souls">
+        <item name="android:windowBackground">@drawable/bg_splash</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <!-- ── OTP Box Style ─────────────────────────────────────────────────── -->
+    <style name="OtpBox">
+        <item name="android:layout_width">44dp</item>
+        <item name="android:layout_height">54dp</item>
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
+        <item name="android:background">@drawable/bg_otp_box</item>
+        <item name="android:gravity">center</item>
+        <item name="android:inputType">number</item>
+        <item name="android:maxLength">1</item>
+        <item name="android:textColor">@color/souls_text_primary</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:cursorVisible">false</item>
+    </style>
+
+    <!-- ── Bottom Sheet Dialog ───────────────────────────────────────────── -->
+    <style name="Theme.Souls.BottomSheet" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/Souls.BottomSheetStyle</item>
+    </style>
+
+    <style name="Souls.BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bg_edittext</item>
+    </style>
+
+</resources>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Souls</string>
+
+    <!-- Login -->
+    <string name="login_title">Welcome\nto Souls</string>
+    <string name="login_subtitle">Your identity lives on the blockchain.\nTap Continue to verify your device.</string>
+
+    <!-- Buttons -->
+    <string name="btn_continue">Continue</string>
+    <string name="btn_scan">Scan for LAMP</string>
+    <string name="btn_mint">Mint My Soul</string>
+    <string name="btn_lookup">Look Up Soul</string>
+    <string name="btn_retry">Try Again</string>
+    <string name="btn_get_started">Get Started</string>
+    <string name="btn_next">Next</string>
+
+    <!-- Errors -->
+    <string name="error_name_required">Please enter your name</string>
+    <string name="error_no_connection">Cannot reach server. Check your connection.</string>
+    <string name="error_session_expired">Session timed out. Please try again.</string>
+    <string name="error_soul_not_found">Soul not found on chain.</string>
+    <string name="error_generic">Something went wrong. Please try again.</string>
+
+    <!-- LAMP Connect -->
+    <string name="lamp_title_idle">Find a LAMP Device</string>
+    <string name="lamp_subtitle_idle">Scan for a nearby LAMP device to begin identity registration</string>
+    <string name="lamp_title_connecting">Connecting to LAMP…</string>
+    <string name="lamp_subtitle_connecting">Starting a verification session</string>
+    <string name="lamp_title_waiting">Place Finger on LAMP</string>
+    <string name="lamp_subtitle_waiting">Put your finger on the LAMP device sensor. Waiting for scan…</string>
+    <string name="lamp_title_minting">Minting your Soul…</string>
+    <string name="lamp_subtitle_minting">Your identity is being written to the blockchain</string>
+
+    <!-- Register -->
+    <string name="register_title">Almost There</string>
+    <string name="register_subtitle">Your fingerprint has been verified.\nEnter your name to mint your Soul.</string>
+    <string name="register_hint_name">e.g. Alex Johnson</string>
+
+    <!-- Soul ID -->
+    <string name="soul_id_title">Soul Identity</string>
+    <string name="soul_id_offline">Offline — showing cached data</string>
+
+    <!-- Onboarding -->
+    <string name="onboard_title_1">One Soul,\nOne Human</string>
+    <string name="onboard_desc_1">Each person gets exactly one Soul — verified with biometrics. No bots. No duplicates.</string>
+    <string name="onboard_title_2">Your Identity\non Chain</string>
+    <string name="onboard_desc_2">Your Soul ID is minted as a block on the blockchain — permanent, tamper-proof, yours.</string>
+    <string name="onboard_title_3">Verified\nby LAMP</string>
+    <string name="onboard_desc_3">A LAMP device scans your fingerprint to ensure every Soul belongs to a real, unique human.</string>
+</resources>

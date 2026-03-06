@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Onboarding slide 3: Discover verified humans -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="160dp"
+    android:viewportWidth="200"
+    android:viewportHeight="160">
+
+    <!-- Connecting lines / network -->
+    <path
+        android:strokeColor="#3D7EFF"
+        android:strokeWidth="1.5"
+        android:strokeAlpha="0.3"
+        android:fillColor="#00000000"
+        android:pathData="M100,80 L50,50 M100,80 L150,50 M100,80 L40,110 M100,80 L160,110 M100,80 L100,40" />
+
+    <!-- Central Soul node -->
+    <path
+        android:fillColor="#3D7EFF"
+        android:pathData="M100,66 A14,14 0 1 1 100,94 A14,14 0 1 1 100,66 Z" />
+    <!-- Soul icon in center -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M100,72 L106,77 L106,83 L100,88 L94,83 L94,77 Z" />
+    <path
+        android:fillColor="#3D7EFF"
+        android:pathData="M100,75 L104,78 L104,82 L100,85 L96,82 L96,78 Z" />
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M100,78 A2,2 0 1 1 100,82 A2,2 0 1 1 100,78 Z" />
+
+    <!-- Outer ring pulse -->
+    <path
+        android:strokeColor="#3D7EFF"
+        android:strokeWidth="1"
+        android:strokeAlpha="0.2"
+        android:fillColor="#00000000"
+        android:pathData="M100,58 A22,22 0 1 1 100,102 A22,22 0 1 1 100,58 Z" />
+    <path
+        android:strokeColor="#3D7EFF"
+        android:strokeWidth="0.5"
+        android:strokeAlpha="0.1"
+        android:fillColor="#00000000"
+        android:pathData="M100,50 A30,30 0 1 1 100,110 A30,30 0 1 1 100,50 Z" />
+
+    <!-- Person node 1 (top) -->
+    <path
+        android:fillColor="#1E3060"
+        android:pathData="M100,26 A12,12 0 1 1 100,50 A12,12 0 1 1 100,26 Z" />
+    <path android:fillColor="#3D7EFF" android:pathData="M100,30 A4,4 0 1 1 100,38 A4,4 0 1 1 100,30 Z" />
+    <path android:fillColor="#3D7EFF" android:pathData="M93,44 Q93,40 100,40 Q107,40 107,44 L107,46 L93,46 Z" />
+    <path android:fillColor="#4DFF91" android:pathData="M108,28 A4,4 0 1 1 108,36 A4,4 0 1 1 108,28 Z" />
+    <path android:strokeColor="#0D0D0D" android:strokeWidth="1.5" android:fillColor="#00000000"
+        android:pathData="M106.5,32 L108,33.5 L110,30.5" />
+
+    <!-- Person node 2 (top-left) -->
+    <path android:fillColor="#1E3060" android:pathData="M38,36 A12,12 0 1 1 38,60 A12,12 0 1 1 38,36 Z" />
+    <path android:fillColor="#3D7EFF" android:pathData="M38,40 A4,4 0 1 1 38,48 A4,4 0 1 1 38,40 Z" />
+    <path android:fillColor="#3D7EFF" android:pathData="M31,54 Q31,50 38,50 Q45,50 45,54 L45,56 L31,56 Z" />
+    <path android:fillColor="#4DFF91" android:pathData="M46,38 A4,4 0 1 1 46,46 A4,4 0 1 1 46,38 Z" />
+    <path android:strokeColor="#0D0D0D" android:strokeWidth="1.5" android:fillColor="#00000000"
+        android:pathData="M44.5,42 L46,43.5 L48,40.5" />
+
+    <!-- Person node 3 (top-right) -->
+    <path android:fillColor="#1E3060" android:pathData="M162,36 A12,12 0 1 1 162,60 A12,12 0 1 1 162,36 Z" />
+    <path android:fillColor="#3D7EFF" android:pathData="M162,40 A4,4 0 1 1 162,48 A4,4 0 1 1 162,40 Z" />
+    <path android:fillColor="#3D7EFF" android:pathData="M155,54 Q155,50 162,50 Q169,50 169,54 L169,56 L155,56 Z" />
+    <path android:fillColor="#4DFF91" android:pathData="M170,38 A4,4 0 1 1 170,46 A4,4 0 1 1 170,38 Z" />
+    <path android:strokeColor="#0D0D0D" android:strokeWidth="1.5" android:fillColor="#00000000"
+        android:pathData="M168.5,42 L170,43.5 L172,40.5" />
+
+    <!-- Person node 4 (bottom-left) -->
+    <path android:fillColor="#1E3060" android:pathData="M28,96 A12,12 0 1 1 28,120 A12,12 0 1 1 28,96 Z" />
+    <path android:fillColor="#3D7EFF" android:pathData="M28,100 A4,4 0 1 1 28,108 A4,4 0 1 1 28,100 Z" />
+    <path android:fillColor="#3D7EFF" android:pathData="M21,114 Q21,110 28,110 Q35,110 35,114 L35,116 L21,116 Z" />
+    <path android:fillColor="#4DFF91" android:pathData="M36,98 A4,4 0 1 1 36,106 A4,4 0 1 1 36,98 Z" />
+    <path android:strokeColor="#0D0D0D" android:strokeWidth="1.5" android:fillColor="#00000000"
+        android:pathData="M34.5,102 L36,103.5 L38,100.5" />
+
+    <!-- Person node 5 (bottom-right) -->
+    <path android:fillColor="#1E3060" android:pathData="M172,96 A12,12 0 1 1 172,120 A12,12 0 1 1 172,96 Z" />
+    <path android:fillColor="#3D7EFF" android:pathData="M172,100 A4,4 0 1 1 172,108 A4,4 0 1 1 172,100 Z" />
+    <path android:fillColor="#3D7EFF" android:pathData="M165,114 Q165,110 172,110 Q179,110 179,114 L179,116 L165,116 Z" />
+    <path android:fillColor="#4DFF91" android:pathData="M180,98 A4,4 0 1 1 180,106 A4,4 0 1 1 180,98 Z" />
+    <path android:strokeColor="#0D0D0D" android:strokeWidth="1.5" android:fillColor="#00000000"
+        android:pathData="M178.5,102 L180,103.5 L182,100.5" />
+
+</vector>

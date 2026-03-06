@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Souls logo: a diamond/gem shape representing a Soul -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+
+    <!-- Outer diamond -->
+    <path
+        android:fillColor="#3D7EFF"
+        android:pathData="M24,4 L40,16 L40,32 L24,44 L8,32 L8,16 Z" />
+
+    <!-- Inner highlight diamond -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:fillAlpha="0.25"
+        android:pathData="M24,10 L36,18 L36,30 L24,38 L12,30 L12,18 Z" />
+
+    <!-- Center dot -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M24,20 A4,4 0 1 1 24,28 A4,4 0 1 1 24,20 Z" />
+
+    <!-- Top facet line -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeAlpha="0.4"
+        android:strokeWidth="1"
+        android:fillColor="#00000000"
+        android:pathData="M24,4 L24,20 M8,16 L24,20 M40,16 L24,20" />
+
+    <!-- Bottom facet line -->
+    <path
+        android:strokeColor="#FFFFFF"
+        android:strokeAlpha="0.2"
+        android:strokeWidth="1"
+        android:fillColor="#00000000"
+        android:pathData="M24,44 L24,28 M8,32 L24,28 M40,32 L24,28" />
+
+</vector>
