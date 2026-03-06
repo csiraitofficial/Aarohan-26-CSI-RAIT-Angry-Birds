@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_dark">
+
+    <!-- Toolbar row -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_arrow_back"
+            android:padding="8dp"
+            android:tint="@color/white"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Scan Fingerprint"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:paddingStart="12dp" />
+
+        <!-- LAMP ID label -->
+        <TextView
+            android:id="@+id/tv_lamp_id_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="LAMP ID: LAMP-DEMO1"
+            android:textSize="12sp"
+            android:textColor="@color/text_secondary"
+            android:fontFamily="monospace" />
+
+    </LinearLayout>
+
+    <!-- Divider -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider" />
+
+    <!-- Content -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="32dp">
+
+        <!-- Status text -->
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter Session ID"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Session ID input -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Session ID"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_marginBottom="24dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_session_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapCharacters|textNoSuggestions"
+                android:fontFamily="monospace"
+                android:textSize="18sp"
+                android:textColor="@color/white"
+                android:maxLines="1"
+                android:imeOptions="actionDone" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Error text -->
+        <TextView
+            android:id="@+id/tv_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="13sp"
+            android:textColor="@color/red"
+            android:visibility="gone"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Fingerprint icon -->
+        <ImageView
+            android:id="@+id/iv_fingerprint"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/ic_fingerprint"
+            android:alpha="0.4"
+            android:layout_marginBottom="32dp" />
+
+        <!-- Progress bar -->
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/accent"
+            android:visibility="gone"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Scan button -->
+        <Button
+            android:id="@+id/btn_scan_finger"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:text="Scan Fingerprint"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:backgroundTint="@color/accent"
+            android:textColor="@color/white" />
+
+    </LinearLayout>
+</LinearLayout>

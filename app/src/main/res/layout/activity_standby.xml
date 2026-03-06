@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="32dp"
+    android:background="@color/bg_dark">
+
+    <!-- App logo / icon -->
+    <ImageView
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_marginBottom="24dp" />
+
+    <!-- App title -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LAMP"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:letterSpacing="0.2"
+        android:layout_marginBottom="4dp" />
+
+    <!-- LAMP display name -->
+    <TextView
+        android:id="@+id/tv_lamp_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LAMP Terminal #1"
+        android:textSize="14sp"
+        android:textColor="@color/text_secondary"
+        android:layout_marginBottom="32dp" />
+
+    <!-- Card showing LAMP ID -->
+    <androidx.cardview.widget.CardView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="12dp"
+        app:cardBackgroundColor="@color/surface"
+        app:cardElevation="0dp"
+        android:layout_marginBottom="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LAMP ID"
+                android:textSize="12sp"
+                android:textColor="@color/text_secondary"
+                android:textAllCaps="true"
+                android:letterSpacing="0.1"
+                android:layout_marginBottom="6dp" />
+
+            <TextView
+                android:id="@+id/tv_lamp_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LAMP-DEMO1"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="@color/accent"
+                android:fontFamily="monospace" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- Biometric status -->
+    <TextView
+        android:id="@+id/tv_bio_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="● Fingerprint sensor ready"
+        android:textSize="13sp"
+        android:textColor="@color/green"
+        android:layout_marginBottom="40dp" />
+
+    <!-- Start scan button -->
+    <Button
+        android:id="@+id/btn_start_scan"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="Start Scan"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:backgroundTint="@color/accent"
+        android:textColor="@color/white" />
+
+</LinearLayout>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">LAMP</string>
+
+    <!-- Standby -->
+    <string name="standby_title">LAMP</string>
+    <string name="btn_start_scan">Start Scan</string>
+
+    <!-- Scan -->
+    <string name="scan_title">Scan Fingerprint</string>
+    <string name="hint_session_id">Session ID</string>
+    <string name="btn_scan_finger">Scan Fingerprint</string>
+    <string name="status_enter_session">Enter Session ID</string>
+    <string name="status_scanning">Place finger on sensor…</string>
+    <string name="status_calling_api">Verifying with blockchain…</string>
+
+    <!-- Result -->
+    <string name="result_verified">Verified ✓</string>
+    <string name="result_failed">Verification Failed</string>
+    <string name="btn_new_scan">New Scan</string>
+    <string name="btn_try_again">Try Again</string>
+
+    <!-- Errors -->
+    <string name="error_empty_session">Please enter the Session ID from the user\'s phone.</string>
+    <string name="error_short_session">Session ID looks too short. Please check and try again.</string>
+    <string name="error_no_connection">Cannot reach server. Check connection.</string>
+</resources>
