@@ -22,15 +22,16 @@ android {
         }
     }
 
+    // ── Upgraded from VERSION_1_8 → VERSION_17 ────────────────────────────────
+    // Java 8 is deprecated in JDK 21 and causes build warnings/errors.
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     buildFeatures {
         viewBinding true
     }
-
 }
 
 dependencies {
@@ -72,5 +73,9 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
+
+    // ── Added: WorkManager — required for SecurityScheduler, ──────────────────
+    // UnknownSourcesMonitorWorker, UnknownSourcesWorker
+    implementation 'androidx.work:work-runtime:2.9.0'
 
 }
