@@ -102,7 +102,7 @@
         </androidx.cardview.widget.CardView>
 
         <!-- ═══════════════════════════════════════════════════════════════════
-             SECURITY SECTION — firewall toggle
+             SECURITY SECTION
              ═══════════════════════════════════════════════════════════════════ -->
         <TextView
             android:id="@+id/tv_section_security"
@@ -134,7 +134,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_section_security">
 
-            <!-- Firewall Row -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
@@ -175,7 +174,6 @@
 
                 </LinearLayout>
 
-                <!-- The switch that SettingsActivity looks up as R.id.switch_firewall -->
                 <androidx.appcompat.widget.SwitchCompat
                     android:id="@+id/switch_firewall"
                     android:layout_width="wrap_content"
@@ -187,7 +185,97 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- Section label: Account -->
+        <!-- ═══════════════════════════════════════════════════════════════════
+             FAMILY SECTION — Parental Controls
+             ═══════════════════════════════════════════════════════════════════ -->
+        <TextView
+            android:id="@+id/tv_section_family"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="28dp"
+            android:text="FAMILY"
+            android:textColor="#636366"
+            android:textSize="11sp"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.12"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cv_security" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cv_family"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginTop="8dp"
+            app:cardBackgroundColor="#1C1C1E"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_section_family">
+
+            <LinearLayout
+                android:id="@+id/ll_parental_controls"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:orientation="horizontal"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:gravity="center_vertical"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_shield"
+                    android:tint="#636366"
+                    android:contentDescription="Parental Controls" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="14dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Parental Controls"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        android:fontFamily="sans-serif-medium" />
+
+                    <TextView
+                        android:id="@+id/tv_parental_status"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="○ Off"
+                        android:textColor="#636366"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/ic_chevron_right"
+                    android:tint="#48484A"
+                    android:contentDescription="Open" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- ═══════════════════════════════════════════════════════════════════
+             ACCOUNT SECTION
+             ═══════════════════════════════════════════════════════════════════ -->
         <TextView
             android:id="@+id/tv_section_account"
             android:layout_width="0dp"
@@ -202,7 +290,7 @@
             android:letterSpacing="0.12"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cv_security" />
+            app:layout_constraintTop_toBottomOf="@id/cv_family" />
 
         <!-- Account Group Card -->
         <androidx.cardview.widget.CardView
@@ -309,7 +397,6 @@
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

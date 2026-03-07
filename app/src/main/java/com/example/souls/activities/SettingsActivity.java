@@ -11,10 +11,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import com.example.souls.R;
-import com.example.souls.vpn.FirewallMonitorService;
 import com.example.souls.network.ApiCallback;
 import com.example.souls.network.ApiManager;
+import com.example.souls.parental.ParentalControlActivity;
+import com.example.souls.parental.ParentalControlManager;
 import com.example.souls.utils.SessionManager;
+import com.example.souls.vpn.FirewallMonitorService;
 
 import org.json.JSONObject;
 
@@ -30,6 +32,12 @@ public class SettingsActivity extends AppCompatActivity {
         // ── Back ─────────────────────────────────────────────────────────────
         ImageView ivBack = findViewById(R.id.iv_back);
         ivBack.setOnClickListener(v -> onBackPressed());
+
+        // ── Parental Controls row ─────────────────────────────────────────────
+        findViewById(R.id.ll_parental_controls).setOnClickListener(v -> {
+            startActivity(new Intent(this, ParentalControlActivity.class));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
 
         // ── Firewall toggle ──────────────────────────────────────────────────
         SwitchCompat switchFirewall = findViewById(R.id.switch_firewall);
@@ -79,6 +87,23 @@ public class SettingsActivity extends AppCompatActivity {
             startActivity(new Intent(this, SoulIdActivity.class));
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
+    }
+
+    // ── Refresh parental status badge on return ───────────────────────────────
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        TextView tvParentalStatus = findViewById(R.id.tv_parental_status);
+        if (tvParentalStatus == null) return;
+        ParentalControlManager pcm = ParentalControlManager.getInstance(this);
+        if (pcm.isEnabled()) {
+            tvParentalStatus.setText("● Active");
+            tvParentalStatus.setTextColor(0xFF4CAF50);
+        } else {
+            tvParentalStatus.setText("○ Off");
+            tvParentalStatus.setTextColor(0xFF888888);
+        }
     }
 
     // ── VPN permission result ────────────────────────────────────────────────

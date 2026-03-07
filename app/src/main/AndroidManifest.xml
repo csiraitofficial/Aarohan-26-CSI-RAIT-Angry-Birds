@@ -34,9 +34,10 @@
     <!-- Restart firewall after reboot -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
-    <!-- Network usage inspection -->
+    <!-- Network usage inspection (also used by parental controls) -->
     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -65,12 +66,10 @@
         <receiver
             android:name=".utils.PackageInstallReceiver"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED"/>
                 <data android:scheme="package"/>
             </intent-filter>
-
         </receiver>
 
         <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -79,11 +78,9 @@
         <receiver
             android:name=".vpn.BootReceiver"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
             </intent-filter>
-
         </receiver>
 
         <!-- ═══════════════════════════════════════════════════════════════ -->
@@ -96,18 +93,15 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Souls.Splash">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
-
         </activity>
 
         <activity
             android:name=".activities.OnboardingActivity"
             android:screenOrientation="portrait"/>
-
 
         <activity
             android:name=".activities.LampConnectActivity"
@@ -142,6 +136,33 @@
             android:screenOrientation="portrait"/>
 
         <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- PARENTAL CONTROLS -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+
+        <activity
+            android:name=".parental.ParentalControlActivity"
+            android:screenOrientation="portrait"/>
+
+        <!--
+            ParentalBlockedActivity must use showOnLockScreen flags so it can
+            appear over other apps when launched from ParentalLockService.
+            showWhenLocked + turnScreenOn ensure it shows even when the device
+            wakes from sleep, which can happen when a child tries to open an app.
+        -->
+        <activity
+            android:name=".parental.ParentalBlockedActivity"
+            android:screenOrientation="portrait"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true"
+            android:excludeFromRecents="true"
+            android:taskAffinity=""
+            android:launchMode="singleTask"/>
+
+        <activity
+            android:name=".parental.UsageReportActivity"
+            android:screenOrientation="portrait"/>
+
+        <!-- ═══════════════════════════════════════════════════════════════ -->
         <!-- VPN FIREWALL -->
         <!-- ═══════════════════════════════════════════════════════════════ -->
 
@@ -149,15 +170,26 @@
             android:name=".vpn.AppFirewallVpnService"
             android:permission="android.permission.BIND_VPN_SERVICE"
             android:exported="true">
-
             <intent-filter>
                 <action android:name="android.net.VpnService"/>
             </intent-filter>
-
         </service>
 
         <service
             android:name=".vpn.FirewallMonitorService"
+            android:foregroundServiceType="dataSync"
+            android:exported="false"/>
+
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <!-- PARENTAL LOCK SERVICE -->
+        <!--
+             foregroundServiceType="dataSync" keeps the service alive
+             on Android 14+ without requiring a new permission type.
+             The service never touches synced data — it only reads usage stats.
+        -->
+        <!-- ═══════════════════════════════════════════════════════════════ -->
+        <service
+            android:name=".parental.ParentalLockService"
             android:foregroundServiceType="dataSync"
             android:exported="false"/>
 
