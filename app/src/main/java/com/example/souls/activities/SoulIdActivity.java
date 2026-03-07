@@ -1,16 +1,22 @@
 package com.example.souls.activities;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.souls.R;
 import com.example.souls.network.ApiCallback;
 import com.example.souls.network.ApiManager;
+import com.example.souls.utils.IdentityPdfExporter;
 import com.example.souls.utils.SessionManager;
 
 import org.json.JSONObject;
@@ -18,26 +24,9 @@ import org.json.JSONObject;
 /**
  * SoulIdActivity — full block record from GET /soul/:soulId
  *
- * Displays every field from the live block:
- *
- * {
- *   "ok": true,
- *   "block": {
- *     "index": 1,
- *     "timestamp": "2026-03-06T10:01:45.000Z",
- *     "hash": "0043d5e0...",
- *     "previousHash": "00f5bf47...",
- *     "nonce": 522,
- *     "data": {
- *       "type": "SOUL_REGISTRATION",
- *       "soulId": "SOUL-AC7EF884",
- *       "soulHash": "a3f7b291...",
- *       "deviceKey": "DK-...",
- *       "lampId": "LAMP-DEMO1",
- *       "verifiedAt": "2026-03-06T10:01:32.000Z"
- *     }
- *   }
- * }
+ * New in this version:
+ *   • "Export PDF Certificate" button at the bottom
+ *   • Tap any hash / ID field to copy it to clipboard
  */
 public class SoulIdActivity extends AppCompatActivity {
 
@@ -46,6 +35,7 @@ public class SoulIdActivity extends AppCompatActivity {
             tvDeviceKey, tvLampId, tvVerifiedAt,
             tvFingerprintHash, tvRegSessionId, tvError;
     private ProgressBar progressBar;
+    private Button      btnExportPdf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,20 +45,33 @@ public class SoulIdActivity extends AppCompatActivity {
         ImageView ivBack = findViewById(R.id.iv_back);
         ivBack.setOnClickListener(v -> onBackPressed());
 
-        tvSoulId        = findViewById(R.id.tv_soul_id_full);
-        tvSoulHash      = findViewById(R.id.tv_soul_hash);
-        tvBlockHash     = findViewById(R.id.tv_block_hash);
-        tvPreviousHash  = findViewById(R.id.tv_previous_hash);
-        tvBlockIndex    = findViewById(R.id.tv_block_index);
-        tvBlockNonce    = findViewById(R.id.tv_block_nonce);
-        tvBlockTimestamp= findViewById(R.id.tv_timestamp);
-        tvDeviceKey     = findViewById(R.id.tv_device_key);
-        tvLampId        = findViewById(R.id.tv_lamp_id);
-        tvVerifiedAt      = findViewById(R.id.tv_verified_at);
-        tvFingerprintHash = findViewById(R.id.tv_fingerprint_hash);
-        tvRegSessionId    = findViewById(R.id.tv_reg_session_id);
-        tvError           = findViewById(R.id.tv_error);
-        progressBar     = findViewById(R.id.progress_bar);
+        tvSoulId         = findViewById(R.id.tv_soul_id_full);
+        tvSoulHash       = findViewById(R.id.tv_soul_hash);
+        tvBlockHash      = findViewById(R.id.tv_block_hash);
+        tvPreviousHash   = findViewById(R.id.tv_previous_hash);
+        tvBlockIndex     = findViewById(R.id.tv_block_index);
+        tvBlockNonce     = findViewById(R.id.tv_block_nonce);
+        tvBlockTimestamp = findViewById(R.id.tv_timestamp);
+        tvDeviceKey      = findViewById(R.id.tv_device_key);
+        tvLampId         = findViewById(R.id.tv_lamp_id);
+        tvVerifiedAt     = findViewById(R.id.tv_verified_at);
+        tvFingerprintHash= findViewById(R.id.tv_fingerprint_hash);
+        tvRegSessionId   = findViewById(R.id.tv_reg_session_id);
+        tvError          = findViewById(R.id.tv_error);
+        progressBar      = findViewById(R.id.progress_bar);
+        btnExportPdf     = findViewById(R.id.btn_export_pdf);
+
+        // Tap-to-copy on every hash / ID field
+        makeCopyable(tvSoulId,          "Soul ID");
+        makeCopyable(tvSoulHash,        "Soul Hash");
+        makeCopyable(tvBlockHash,       "Block Hash");
+        makeCopyable(tvPreviousHash,    "Previous Hash");
+        makeCopyable(tvDeviceKey,       "Device Key");
+        makeCopyable(tvFingerprintHash, "Fingerprint Hash");
+        makeCopyable(tvRegSessionId,    "Registration Session ID");
+
+        // Export PDF
+        btnExportPdf.setOnClickListener(v -> exportPdf());
 
         // Show cached values instantly
         bindCache();
@@ -76,6 +79,32 @@ public class SoulIdActivity extends AppCompatActivity {
         // Fetch live from chain
         fetchBlock();
     }
+
+    // ── Export PDF ────────────────────────────────────────────────────────────
+
+    private void exportPdf() {
+        SessionManager sm = SessionManager.getInstance(this);
+        if (!sm.isRegistered()) {
+            Toast.makeText(this, "No Soul ID found — complete registration first.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        Toast.makeText(this, "Generating certificate…", Toast.LENGTH_SHORT).show();
+        IdentityPdfExporter.export(this, sm);
+    }
+
+    // ── Tap-to-copy helper ────────────────────────────────────────────────────
+
+    private void makeCopyable(TextView tv, String label) {
+        tv.setOnClickListener(v -> {
+            String text = tv.getText().toString();
+            if (text.isEmpty() || text.equals("—")) return;
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            clipboard.setPrimaryClip(ClipData.newPlainText(label, text));
+            Toast.makeText(this, label + " copied", Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    // ── Bind from local cache ─────────────────────────────────────────────────
 
     private void bindCache() {
         SessionManager sm = SessionManager.getInstance(this);
@@ -86,7 +115,7 @@ public class SoulIdActivity extends AppCompatActivity {
         tvBlockIndex.setText(sm.getBlockIndex() >= 0        ? "Block #" + sm.getBlockIndex() : "—");
         tvBlockNonce.setText(sm.getBlockNonce() > 0         ? String.valueOf(sm.getBlockNonce()) : "—");
         tvBlockTimestamp.setText(formatDate(sm.getBlockTimestamp()));
-        tvDeviceKey.setText(truncate(sm.getDeviceKey()));
+        tvDeviceKey.setText(sm.getDeviceKey().isEmpty()     ? "—" : sm.getDeviceKey());
         tvLampId.setText(sm.getLampId().isEmpty()           ? "—" : sm.getLampId());
         tvVerifiedAt.setText(formatDate(sm.getVerifiedAt()));
         tvFingerprintHash.setText(sm.getFingerprintHash().isEmpty() ? "—" : sm.getFingerprintHash());
@@ -119,9 +148,8 @@ public class SoulIdActivity extends AppCompatActivity {
                 JSONObject block = data.optJSONObject("block");
                 if (block == null) return;
 
-                // persistBlock() maps all block + data fields to SessionManager
                 SessionManager.getInstance(SoulIdActivity.this).persistBlock(block);
-                bindCache(); // re-bind with fresh data
+                bindCache();
             }
 
             @Override
@@ -129,18 +157,11 @@ public class SoulIdActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 tvError.setText(getString(R.string.soul_id_offline));
                 tvError.setVisibility(View.VISIBLE);
-                // Cached values already displayed by bindCache() in onCreate
             }
         });
     }
 
     // ── Helpers ───────────────────────────────────────────────────────────────
-
-    private String truncate(String s) {
-        if (s == null || s.isEmpty()) return "—";
-        if (s.length() <= 20) return s;
-        return s.substring(0, 10) + "…" + s.substring(s.length() - 6);
-    }
 
     private String formatDate(String iso) {
         if (iso == null || iso.isEmpty()) return "—";

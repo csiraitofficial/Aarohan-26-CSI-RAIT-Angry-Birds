@@ -26,7 +26,6 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <!-- Right side: gear + profile -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -34,7 +33,6 @@
                 android:orientation="horizontal"
                 android:gravity="center_vertical">
 
-                <!-- Settings gear icon -->
                 <ImageView
                     android:id="@+id/iv_settings"
                     android:layout_width="40dp"
@@ -46,7 +44,6 @@
                     android:src="@drawable/ic_settings"
                     android:tint="#AAAAAA" />
 
-                <!-- Profile icon -->
                 <ImageView
                     android:id="@+id/iv_profile"
                     android:layout_width="40dp"
@@ -55,7 +52,6 @@
                     android:contentDescription="Profile"
                     android:padding="8dp"
                     android:src="@drawable/ic_person" />
-
             </LinearLayout>
         </FrameLayout>
 
@@ -80,8 +76,9 @@
             android:textColor="#888888"
             android:textSize="13sp" />
 
-        <!-- Soul ID card (tappable) -->
+        <!-- Soul ID card (tappable → Soul Identity screen) -->
         <LinearLayout
+            android:id="@+id/ll_soul_id_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
@@ -201,6 +198,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
             android:background="@drawable/bg_action_card"
             android:orientation="vertical"
             android:padding="16dp">
@@ -221,6 +219,157 @@
                 android:text="—"
                 android:textColor="#FFFFFF"
                 android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- ── Section label ── -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="ACTIONS"
+            android:textColor="#555555"
+            android:textSize="11sp"
+            android:letterSpacing="0.12" />
+
+        <!-- Verify a Person button -->
+        <LinearLayout
+            android:id="@+id/btn_verify_person"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_action_card"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🔍"
+                android:textSize="22sp"
+                android:layout_marginEnd="16dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Verify a Person"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Check if a Soul ID is a verified human"
+                    android:textColor="#666666"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_chevron_right"
+                android:contentDescription="Go" />
+        </LinearLayout>
+
+        <!-- Share My Soul ID button -->
+        <LinearLayout
+            android:id="@+id/btn_share_soul"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_action_card"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📤"
+                android:textSize="22sp"
+                android:layout_marginEnd="16dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Share My Soul ID"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Let others verify your identity"
+                    android:textColor="#666666"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_chevron_right"
+                android:contentDescription="Go" />
+        </LinearLayout>
+
+        <!-- Export Identity Certificate -->
+        <LinearLayout
+            android:id="@+id/btn_export_cert"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/bg_action_card"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📄"
+                android:textSize="22sp"
+                android:layout_marginEnd="16dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Export Identity Certificate"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Download your Soul ID as a PDF"
+                    android:textColor="#666666"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_chevron_right"
+                android:contentDescription="Go" />
         </LinearLayout>
 
     </LinearLayout>

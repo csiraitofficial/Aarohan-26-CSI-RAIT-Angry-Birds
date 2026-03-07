@@ -23,7 +23,7 @@
             android:src="@drawable/ic_back_arrow" />
     </FrameLayout>
 
-    <!-- Fingerprint icon — fades in/out via alpha in code -->
+    <!-- Fingerprint icon -->
     <ImageView
         android:id="@+id/iv_fingerprint"
         android:layout_width="96dp"
@@ -53,11 +53,75 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="28dp"
         android:gravity="center"
         android:text="Scan for a nearby LAMP device to begin identity registration"
         android:textColor="#888888"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:lineSpacingMultiplier="1.4" />
+
+    <!-- Session ID card — shown once session starts, hidden otherwise -->
+    <LinearLayout
+        android:id="@+id/ll_session_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/bg_action_card"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:visibility="gone">
+
+        <!-- Label row -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="SESSION ID"
+            android:textColor="#A07CFF"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.12" />
+
+        <!-- Session ID value + copy button -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tv_session_id"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="monospace"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btn_copy_session"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginStart="12dp"
+                android:background="@drawable/bg_button_secondary"
+                android:text="Copy"
+                android:textColor="#A07CFF"
+                android:textSize="12sp"
+                android:paddingHorizontal="14dp" />
+        </LinearLayout>
+
+        <!-- Helper text -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Share this Session ID with the LAMP operator so they can verify your fingerprint."
+            android:textColor="#555555"
+            android:textSize="12sp"
+            android:lineSpacingMultiplier="1.4" />
+
+    </LinearLayout>
 
     <!-- Error message -->
     <TextView

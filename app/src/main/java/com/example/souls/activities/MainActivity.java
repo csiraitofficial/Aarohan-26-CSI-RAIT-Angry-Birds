@@ -3,49 +3,23 @@ package com.example.souls.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.souls.R;
 import com.example.souls.network.ApiCallback;
 import com.example.souls.network.ApiManager;
+import com.example.souls.utils.IdentityPdfExporter;
 import com.example.souls.utils.SessionManager;
 
 import org.json.JSONObject;
 
-/**
- * MainActivity — Soul dashboard.
- *
- * On resume, refreshes from GET /soul/by-device/:deviceKey and GET /validate.
- *
- * GET /soul/by-device response shape:
- * {
- *   "ok": true,
- *   "block": {
- *     "index": 1,
- *     "timestamp": "2026-03-06T10:01:45.000Z",
- *     "hash": "0043d5e0...",
- *     "previousHash": "00f5bf47...",
- *     "nonce": 522,
- *     "data": {
- *       "type": "SOUL_REGISTRATION",
- *       "soulId": "SOUL-AC7EF884",
- *       "soulHash": "a3f7b291...",
- *       "deviceKey": "DK-...",
- *       "lampId": "LAMP-DEMO1",
- *       "verifiedAt": "2026-03-06T10:01:32.000Z"
- *     }
- *   }
- * }
- *
- * GET /validate response:
- * { "valid": true, "message": "Chain is intact ✓" }
- */
 public class MainActivity extends AppCompatActivity {
 
     private TextView tvName, tvSoulId, tvBlockHash, tvBlockIndex, tvVerifiedAt, tvChainStatus;
-    private ImageView ivProfile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,19 +32,48 @@ public class MainActivity extends AppCompatActivity {
         tvBlockIndex  = findViewById(R.id.tv_block_index);
         tvVerifiedAt  = findViewById(R.id.tv_verified_at);
         tvChainStatus = findViewById(R.id.tv_chain_status);
-        ivProfile     = findViewById(R.id.iv_profile);
 
-        // existing
-        ivProfile.setOnClickListener(v ->
-                startActivity(new Intent(this, ProfileActivity.class)));
+        // ── Top bar navigation ────────────────────────────────────────────────
+        findViewById(R.id.iv_profile).setOnClickListener(v -> {
+            startActivity(new Intent(this, ProfileActivity.class));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
 
-// ADD THIS
         findViewById(R.id.iv_settings).setOnClickListener(v -> {
             startActivity(new Intent(this, SettingsActivity.class));
             overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         });
-        tvSoulId.setOnClickListener(v ->
-                startActivity(new Intent(this, SoulIdActivity.class)));
+
+        // ── Soul ID card → full identity screen ───────────────────────────────
+        findViewById(R.id.ll_soul_id_card).setOnClickListener(v -> {
+            startActivity(new Intent(this, SoulIdActivity.class));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
+        // ── Action: Verify a Person ────────────────────────────────────────────
+        findViewById(R.id.btn_verify_person).setOnClickListener(v -> {
+            startActivity(new Intent(this, SendActivity.class));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
+        // ── Action: Share My Soul ID ───────────────────────────────────────────
+        findViewById(R.id.btn_share_soul).setOnClickListener(v -> {
+            startActivity(new Intent(this, ReceiveActivity.class));
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        });
+
+        // ── Action: Export Identity Certificate ───────────────────────────────
+        findViewById(R.id.btn_export_cert).setOnClickListener(v -> {
+            SessionManager sm = SessionManager.getInstance(this);
+            if (!sm.isRegistered()) {
+                Toast.makeText(this,
+                        "Complete your Soul registration first.",
+                        Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Toast.makeText(this, "Generating certificate…", Toast.LENGTH_SHORT).show();
+            IdentityPdfExporter.export(this, sm);
+        });
 
         bindCache();
         refreshFromChain();
@@ -83,61 +86,44 @@ public class MainActivity extends AppCompatActivity {
         bindCache();
     }
 
-    // ── Bind from local cache (instant display) ───────────────────────────────
+    // ── Bind from local cache ─────────────────────────────────────────────────
 
     private void bindCache() {
         SessionManager sm = SessionManager.getInstance(this);
-
         String name = sm.getUserName();
         tvName.setText((name != null && !name.isEmpty()) ? "Welcome, " + name : "Welcome");
-
         tvSoulId.setText(sm.getSoulId().isEmpty()    ? "Pending…"  : sm.getSoulId());
         tvBlockHash.setText(truncate(sm.getBlockHash()));
         tvBlockIndex.setText(sm.getBlockIndex() >= 0 ? "Block #" + sm.getBlockIndex() : "—");
         tvVerifiedAt.setText(formatDate(sm.getVerifiedAt()));
     }
 
-    // ── Live refresh: GET /soul/by-device/:deviceKey ──────────────────────────
+    // ── Live refresh ──────────────────────────────────────────────────────────
 
     private void refreshFromChain() {
         String deviceKey = SessionManager.getInstance(this).getDeviceKey();
         ApiManager.get().getSoulByDevice(deviceKey, new ApiCallback() {
-            @Override
-            public void onSuccess(JSONObject data) {
+            @Override public void onSuccess(JSONObject data) {
                 if (!data.optBoolean("ok", false)) return;
                 JSONObject block = data.optJSONObject("block");
                 if (block == null) return;
-
-                // persistBlock() maps every block field to SessionManager
                 SessionManager.getInstance(MainActivity.this).persistBlock(block);
                 bindCache();
             }
-
-            @Override
-            public void onError(String message) {
-                // Silent — cached data already shown
-            }
+            @Override public void onError(String message) { /* silent */ }
         });
     }
 
-    // ── GET /validate ─────────────────────────────────────────────────────────
-
     private void checkChainValidity() {
         ApiManager.get().validateChain(new ApiCallback() {
-            @Override
-            public void onSuccess(JSONObject data) {
-                // { "valid": true,  "message": "Chain is intact ✓" }
-                // { "valid": false, "message": "⚠ Chain tampered!" }
+            @Override public void onSuccess(JSONObject data) {
                 boolean valid = data.optBoolean("valid", false);
-                String  msg   = data.optString("message",
-                        valid ? "Chain intact" : "Chain tampered");
+                String  msg   = data.optString("message", valid ? "Chain intact" : "Chain tampered");
                 tvChainStatus.setText(msg);
                 tvChainStatus.setTextColor(android.graphics.Color.parseColor(
                         valid ? "#4CAF50" : "#FF5555"));
             }
-
-            @Override
-            public void onError(String message) {
+            @Override public void onError(String message) {
                 tvChainStatus.setText("Chain status unavailable");
             }
         });

@@ -38,13 +38,10 @@ public class SettingsActivity extends AppCompatActivity {
         switchFirewall.setOnCheckedChangeListener((btn, checked) -> {
             SessionManager.getInstance(this).setFirewallEnabled(checked);
             if (checked) {
-                // Android requires explicit user consent before a VPN can be established
                 Intent vpnIntent = VpnService.prepare(this);
                 if (vpnIntent != null) {
-                    // Launches the system "Connection request" dialog
                     startActivityForResult(vpnIntent, REQUEST_VPN_PERMISSION);
                 } else {
-                    // Permission already granted from a previous session
                     startFirewall();
                 }
             } else {
@@ -67,16 +64,6 @@ public class SettingsActivity extends AppCompatActivity {
             public void onError(String message) {
                 tvChainStatus.setText("Offline");
             }
-        });
-
-        // ── Logout ───────────────────────────────────────────────────────────
-        LinearLayout llLogout = findViewById(R.id.ll_logout);
-        llLogout.setOnClickListener(v -> {
-            SessionManager.getInstance(this).logout();
-            Intent intent = new Intent(this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            overridePendingTransition(R.anim.fade_in, android.R.anim.fade_out);
         });
 
         // ── Profile row ──────────────────────────────────────────────────────
@@ -102,7 +89,6 @@ public class SettingsActivity extends AppCompatActivity {
         if (requestCode == REQUEST_VPN_PERMISSION && resultCode == RESULT_OK) {
             startFirewall();
         } else if (requestCode == REQUEST_VPN_PERMISSION) {
-            // User denied — revert the toggle
             SwitchCompat sw = findViewById(R.id.switch_firewall);
             if (sw != null) sw.setChecked(false);
             SessionManager.getInstance(this).setFirewallEnabled(false);

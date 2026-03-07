@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/xml/file_provider_paths.xml
+     Required by the FileProvider declared in AndroidManifest.
+     Grants access to the cache/exports/ folder where PDFs are written. -->
+<paths>
+    <cache-path
+        name="exported_pdfs"
+        path="exports/" />
+</paths>

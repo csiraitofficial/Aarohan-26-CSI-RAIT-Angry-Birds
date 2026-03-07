@@ -1,130 +1,299 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- activity_send.xml repurposed as Soul Lookup screen.
-     Uses GET /soul/:soulId — no wallet, no amount, no crypto. -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- activity_send.xml — "Verify a Person" screen -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0D0D0D"
-    android:orientation="vertical"
-    android:padding="24dp">
+    android:fillViewport="true">
 
-    <!-- Top bar -->
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginBottom="32dp">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
 
-        <ImageView
-            android:id="@+id/iv_back"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center_vertical|start"
-            android:padding="8dp"
-            android:src="@drawable/ic_back_arrow"
-            android:contentDescription="Back" />
+        <!-- Top bar -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginBottom="8dp">
 
+            <ImageView
+                android:id="@+id/iv_back"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center_vertical|start"
+                android:padding="8dp"
+                android:src="@drawable/ic_back_arrow"
+                android:contentDescription="Back" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Verify a Person"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </FrameLayout>
+
+        <!-- Subtitle -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="28dp"
+            android:text="Enter a Soul ID to confirm someone is a verified human on the Souls blockchain."
+            android:textColor="#888888"
+            android:textSize="13sp"
+            android:lineSpacingMultiplier="1.4" />
+
+        <!-- Soul ID input label -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Look Up Soul"
-            android:textColor="#FFFFFF"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </FrameLayout>
+            android:layout_marginBottom="6dp"
+            android:text="SOUL ID"
+            android:textColor="#888888"
+            android:textSize="11sp"
+            android:letterSpacing="0.1" />
 
-    <!-- Soul ID input -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="6dp"
-        android:text="SOUL ID"
-        android:textColor="#888888"
-        android:textSize="11sp"
-        android:letterSpacing="0.1" />
-
-    <EditText
-        android:id="@+id/et_soul_id"
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:layout_marginBottom="12dp"
-        android:background="@drawable/bg_edittext"
-        android:hint="e.g. SOUL-AC7EF884"
-        android:textColorHint="#555555"
-        android:inputType="text"
-        android:paddingHorizontal="16dp"
-        android:textColor="#FFFFFF"
-        android:textSize="15sp"
-        android:fontFamily="monospace" />
-
-    <!-- Error -->
-    <TextView
-        android:id="@+id/tv_error"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:textColor="#FF5555"
-        android:textSize="13sp"
-        android:visibility="gone" />
-
-    <!-- Lookup button -->
-    <Button
-        android:id="@+id/btn_lookup"
-        android:layout_width="match_parent"
-        android:layout_height="52dp"
-        android:layout_marginBottom="24dp"
-        android:background="@drawable/bg_button_primary"
-        android:text="Look Up"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
-    <!-- Progress -->
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="16dp"
-        android:visibility="gone" />
-
-    <!-- Result card -->
-    <LinearLayout
-        android:id="@+id/ll_result"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_action_card"
-        android:orientation="vertical"
-        android:padding="16dp"
-        android:visibility="gone">
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp" android:text="SOUL ID"
-            android:textColor="#888888" android:textSize="11sp" android:letterSpacing="0.1" />
-        <TextView android:id="@+id/tv_result_soul_id" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:layout_marginBottom="12dp"
-            android:textColor="#A07CFF" android:textSize="15sp" android:fontFamily="monospace" />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp" android:text="SOUL HASH"
-            android:textColor="#888888" android:textSize="11sp" android:letterSpacing="0.1" />
-        <TextView android:id="@+id/tv_result_soul_hash" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:layout_marginBottom="12dp"
-            android:textColor="#CCCCCC" android:textSize="13sp" android:fontFamily="monospace" />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp" android:text="BLOCK HASH"
-            android:textColor="#888888" android:textSize="11sp" android:letterSpacing="0.1" />
-        <TextView android:id="@+id/tv_result_block_hash" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:layout_marginBottom="12dp"
-            android:textColor="#CCCCCC" android:textSize="13sp" android:fontFamily="monospace" />
-
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp" android:text="VERIFIED AT"
-            android:textColor="#888888" android:textSize="11sp" android:letterSpacing="0.1" />
-        <TextView android:id="@+id/tv_result_verified_at" android:layout_width="match_parent"
+        <!-- Input row: text field + verify button side by side -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#FFFFFF" android:textSize="14sp" />
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp">
 
-</LinearLayout>
+            <EditText
+                android:id="@+id/et_soul_id"
+                android:layout_width="0dp"
+                android:layout_height="52dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/bg_edittext"
+                android:hint="SOUL-AC7EF884"
+                android:textColorHint="#555555"
+                android:inputType="textCapCharacters"
+                android:imeOptions="actionSearch"
+                android:paddingHorizontal="16dp"
+                android:textColor="#FFFFFF"
+                android:textSize="15sp"
+                android:fontFamily="monospace" />
+
+            <Button
+                android:id="@+id/btn_lookup"
+                android:layout_width="wrap_content"
+                android:layout_height="52dp"
+                android:background="@drawable/bg_button_primary"
+                android:text="Verify"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:paddingHorizontal="20dp" />
+        </LinearLayout>
+
+        <!-- Error -->
+        <TextView
+            android:id="@+id/tv_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:textColor="#FF5555"
+            android:textSize="13sp"
+            android:visibility="gone" />
+
+        <!-- Progress -->
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone" />
+
+        <!-- ✅ VERIFIED HUMAN banner -->
+        <LinearLayout
+            android:id="@+id/ll_verified_banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="#1A2E1A"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:visibility="gone">
+
+            <!-- Icon + title row -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="6dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="✅"
+                    android:textSize="28sp"
+                    android:layout_marginEnd="12dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="VERIFIED HUMAN"
+                        android:textColor="#4CAF50"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.05" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="This Soul ID exists and is valid on-chain"
+                        android:textColor="#66AA66"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- ❌ NOT FOUND banner -->
+        <LinearLayout
+            android:id="@+id/ll_not_found_banner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="#2E1A1A"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="❌"
+                    android:textSize="28sp"
+                    android:layout_marginEnd="12dp" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="NOT FOUND"
+                        android:textColor="#FF5555"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:letterSpacing="0.05" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="This Soul ID is not registered on the Souls blockchain"
+                        android:textColor="#AA6666"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- Detail result card (shown on success) -->
+        <LinearLayout
+            android:id="@+id/ll_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_action_card"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:visibility="gone">
+
+            <!-- Soul ID row with copy button -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="14dp">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp" android:text="SOUL ID"
+                        android:textColor="#888888" android:textSize="11sp" android:letterSpacing="0.1" />
+                    <TextView android:id="@+id/tv_result_soul_id" android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#A07CFF" android:textSize="15sp" android:fontFamily="monospace"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Copy Soul ID button -->
+                <Button
+                    android:id="@+id/btn_copy_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:background="@drawable/bg_button_secondary"
+                    android:text="Copy"
+                    android:textColor="#A07CFF"
+                    android:textSize="12sp"
+                    android:paddingHorizontal="14dp" />
+            </LinearLayout>
+
+            <!-- Soul Hash -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp" android:text="SOUL HASH"
+                android:textColor="#888888" android:textSize="11sp" android:letterSpacing="0.1" />
+            <TextView android:id="@+id/tv_result_soul_hash" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:layout_marginBottom="14dp"
+                android:textColor="#CCCCCC" android:textSize="11sp" android:fontFamily="monospace" />
+
+            <!-- Block Hash -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp" android:text="BLOCK HASH"
+                android:textColor="#888888" android:textSize="11sp" android:letterSpacing="0.1" />
+            <TextView android:id="@+id/tv_result_block_hash" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:layout_marginBottom="14dp"
+                android:textColor="#CCCCCC" android:textSize="11sp" android:fontFamily="monospace" />
+
+            <!-- Verified At -->
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp" android:text="VERIFIED AT"
+                android:textColor="#888888" android:textSize="11sp" android:letterSpacing="0.1" />
+            <TextView android:id="@+id/tv_result_verified_at" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:layout_marginBottom="18dp"
+                android:textColor="#FFFFFF" android:textSize="14sp" />
+
+            <!-- Divider -->
+            <View android:layout_width="match_parent" android:layout_height="1dp"
+                android:background="#2A2A2A" android:layout_marginBottom="14dp" />
+
+            <!-- Share result button -->
+            <Button
+                android:id="@+id/btn_share_result"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_button_primary"
+                android:text="Share Verification Result"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

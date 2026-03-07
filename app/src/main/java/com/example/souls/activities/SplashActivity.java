@@ -21,21 +21,18 @@ import org.json.JSONObject;
  * SplashActivity — entry point.
  *
  * Flow:
- *  1. UnknownSourcesGuard scans all installed apps for "Install Unknown Apps" ON.
- *     If any found → blocking dialog appears:
- *       • "Disable in Settings" → opens Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES
- *       • "Continue Anyway"    → proceeds past the warning
- *     If none found → proceeds immediately.
- *  2. On return from Settings, onResume() calls resumeIfReturningFromSettings().
+ *  1. ApiManager.init() — passes context so connectivity checks work.
+ *  2. UnknownSourcesGuard scans all installed apps for "Install Unknown Apps" ON.
+ *     If any found → blocking dialog appears.
  *  3. GET /device/:deviceKey → routes to MainActivity or LampConnectActivity.
  */
 public class SplashActivity extends AppCompatActivity {
 
     private static final int MIN_SPLASH_MS = 1_200;
 
-    private boolean apiDone      = false;
-    private boolean timerDone    = false;
-    private Intent  next         = null;
+    private boolean apiDone       = false;
+    private boolean timerDone     = false;
+    private Intent  next          = null;
     private boolean launchStarted = false;
 
     @Override
@@ -46,22 +43,17 @@ public class SplashActivity extends AppCompatActivity {
         // Start background unknown-sources monitor (fires every 15 min)
         SecurityScheduler.start(this);
 
-        // ── Step 1: Check for apps with Install Unknown Apps ON ───────────────
-        // If any app has the permission enabled, UnknownSourcesGuard shows
-        // a blocking dialog listing the offending apps before proceeding.
         UnknownSourcesGuard.checkAndProceed(this, this::beginLaunchFlow);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        // Step 2 — user returned from Settings after tapping "Disable in Settings"
-        // Resume the pending launch flow if they went to fix the issue
         UnknownSourcesGuard.resumeIfReturningFromSettings(this);
         SecurityScheduler.start(this);
     }
 
-    // ── Runs after guard passes (either clean or user dismissed warning) ───────
+    // ── Launch flow ───────────────────────────────────────────────────────────
 
     private synchronized void beginLaunchFlow() {
         if (launchStarted) return;
@@ -93,7 +85,7 @@ public class SplashActivity extends AppCompatActivity {
 
             @Override
             public void onError(String message) {
-                // Offline fallback — use local cache
+                // Offline fallback — route based on local cache
                 SessionManager sm = SessionManager.getInstance(SplashActivity.this);
                 next = new Intent(SplashActivity.this,
                         sm.isRegistered() ? MainActivity.class : LampConnectActivity.class);

@@ -2,7 +2,6 @@ package com.example.souls.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -31,21 +30,21 @@ public class OnboardingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_onboarding);
 
-        viewPager = findViewById(R.id.view_pager);
-        btnAction = findViewById(R.id.btn_action);
+        viewPager     = findViewById(R.id.view_pager);
+        btnAction     = findViewById(R.id.btn_action);
         dotsIndicator = findViewById(R.id.dots_indicator);
         TextView tvSkip = findViewById(R.id.tv_skip);
 
         setupPages();
         setupViewPager();
 
-        tvSkip.setOnClickListener(v -> navigateToLogin());
+        tvSkip.setOnClickListener(v -> finishOnboarding());
 
         btnAction.setOnClickListener(v -> {
             if (currentPage < pages.size() - 1) {
                 viewPager.setCurrentItem(currentPage + 1, true);
             } else {
-                navigateToLogin();
+                finishOnboarding();
             }
         });
     }
@@ -86,9 +85,11 @@ public class OnboardingActivity extends AppCompatActivity {
         });
     }
 
-    private void navigateToLogin() {
+    private void finishOnboarding() {
         SessionManager.getInstance(this).setOnboarded(true);
-        startActivity(new Intent(this, LoginActivity.class));
+        Intent intent = new Intent(this, SplashActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         finish();
     }

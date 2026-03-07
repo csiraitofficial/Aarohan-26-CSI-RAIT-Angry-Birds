@@ -1,5 +1,8 @@
 package com.example.souls.activities;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,8 +10,10 @@ import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -29,26 +34,24 @@ import java.util.TimeZone;
  * LampConnectActivity
  *
  * Handles the LAMP device registration flow:
- *   1. User taps "Scan for LAMP" (simulates BT discovery)
+ *   1. User taps "Scan for LAMP"
  *   2. App calls POST /session/start → gets sessionId
- *   3. App polls GET /session/:sessionId every 2 s
- *   4. When stage = FINGERPRINT_RECEIVED, routes to RegisterActivity
- *
- * In production, step 1 uses BluetoothLeScanner to find the LAMP device
- * and read its lampId. Here we use a hardcoded demo lampId for testing.
+ *   3. Session ID is displayed so the LAMP operator can enter it
+ *   4. App polls GET /session/:sessionId every 2 s
+ *   5. When stage = FINGERPRINT_RECEIVED, routes to RegisterActivity
  */
 public class LampConnectActivity extends AppCompatActivity {
 
-    // Demo LAMP ID — in production this comes from BT broadcast / QR code
-    private static final String DEMO_LAMP_ID    = "LAMP-DEMO1";
+    private static final String DEMO_LAMP_ID     = "LAMP-DEMO1";
     private static final int    POLL_INTERVAL_MS = 2_000;
 
     private enum UiState { IDLE, CONNECTING, WAITING_FINGERPRINT, MINTING, ERROR }
 
-    private TextView    tvStatus, tvSubtitle, tvError;
-    private Button      btnScan, btnRetry;
-    private ProgressBar progressBar;
-    private ImageView   ivFingerprint;
+    private TextView     tvStatus, tvSubtitle, tvError, tvSessionId;
+    private Button       btnScan, btnRetry, btnCopySession;
+    private ProgressBar  progressBar;
+    private ImageView    ivFingerprint;
+    private LinearLayout llSessionCard;
 
     private Handler  pollHandler;
     private Runnable pollRunnable;
@@ -65,10 +68,13 @@ public class LampConnectActivity extends AppCompatActivity {
         tvStatus      = findViewById(R.id.tv_status);
         tvSubtitle    = findViewById(R.id.tv_subtitle);
         tvError       = findViewById(R.id.tv_error);
+        tvSessionId   = findViewById(R.id.tv_session_id);
         btnScan       = findViewById(R.id.btn_scan);
         btnRetry      = findViewById(R.id.btn_retry);
+        btnCopySession= findViewById(R.id.btn_copy_session);
         progressBar   = findViewById(R.id.progress_bar);
         ivFingerprint = findViewById(R.id.iv_fingerprint);
+        llSessionCard = findViewById(R.id.ll_session_card);
 
         pollHandler = new Handler(Looper.getMainLooper());
 
@@ -76,6 +82,14 @@ public class LampConnectActivity extends AppCompatActivity {
         btnRetry.setOnClickListener(v -> {
             setUiState(UiState.IDLE);
             startLampSession();
+        });
+        btnCopySession.setOnClickListener(v -> {
+            String sid = tvSessionId.getText().toString();
+            if (!sid.isEmpty()) {
+                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                cm.setPrimaryClip(ClipData.newPlainText("Session ID", sid));
+                Toast.makeText(this, "Session ID copied", Toast.LENGTH_SHORT).show();
+            }
         });
 
         setUiState(UiState.IDLE);
@@ -97,12 +111,14 @@ public class LampConnectActivity extends AppCompatActivity {
                     SessionManager sm = SessionManager.getInstance(LampConnectActivity.this);
                     sm.setSessionId(sessionId);
                     sm.setLampId(DEMO_LAMP_ID);
+
+                    // Show the session ID card so operator can use it
+                    showSessionId(sessionId);
                     setUiState(UiState.WAITING_FINGERPRINT);
                     startPolling(sessionId);
                 } else {
                     String error = data.optString("error", "Failed to start session");
                     if (error.contains("already")) {
-                        // 409 — device already has a Soul; load it and go to dashboard
                         loadSoulAndGoHome();
                     } else {
                         showError(error);
@@ -112,14 +128,18 @@ public class LampConnectActivity extends AppCompatActivity {
 
             @Override
             public void onError(String message) {
-                showError("Cannot reach server. Check your connection.");
+                showError(message);
             }
         });
     }
 
-    /**
-     * Device already registered — fetch Soul data then route to MainActivity.
-     */
+    private void showSessionId(String sessionId) {
+        tvSessionId.setText(sessionId);
+        llSessionCard.setVisibility(View.VISIBLE);
+    }
+
+    // ─── Already registered: load Soul → dashboard ────────────────────────────
+
     private void loadSoulAndGoHome() {
         String deviceKey = SessionManager.getInstance(this).getDeviceKey();
         ApiManager.get().getSoulByDevice(deviceKey, new ApiCallback() {
@@ -146,7 +166,6 @@ public class LampConnectActivity extends AppCompatActivity {
 
             @Override
             public void onError(String message) {
-                // Can't reach server but locally registered — just go home
                 startActivity(new Intent(LampConnectActivity.this, MainActivity.class));
                 finishAffinity();
             }
@@ -156,14 +175,11 @@ public class LampConnectActivity extends AppCompatActivity {
     // ─── Step 3 & 4: Poll session ─────────────────────────────────────────────
 
     private void startPolling(String sessionId) {
-        isPolling = true;
+        isPolling    = true;
         pollRunnable = new Runnable() {
             @Override
             public void run() {
                 if (!isPolling) return;
-
-                // Capture outer Runnable so ApiCallback can re-schedule it.
-                // 'this' inside the callback refers to the callback, not this Runnable.
                 final Runnable self = this;
 
                 ApiManager.get().pollSession(sessionId, new ApiCallback() {
@@ -174,7 +190,6 @@ public class LampConnectActivity extends AppCompatActivity {
                         String stage     = data.optString("stage", "");
                         String expiresAt = data.optString("expiresAt", "");
 
-                        // Check expiry — SimpleDateFormat works on API 24+
                         if (!expiresAt.isEmpty()) {
                             try {
                                 long expiryMs = parseIso8601(expiresAt);
@@ -191,8 +206,6 @@ public class LampConnectActivity extends AppCompatActivity {
                             case "FINGERPRINT_RECEIVED":
                                 stopPolling();
                                 setUiState(UiState.MINTING);
-                                // Route to RegisterActivity where user enters their name,
-                                // then finalizes the Soul.
                                 startActivity(new Intent(LampConnectActivity.this,
                                         RegisterActivity.class));
                                 overridePendingTransition(R.anim.slide_in_right,
@@ -206,7 +219,6 @@ public class LampConnectActivity extends AppCompatActivity {
                                 break;
 
                             default:
-                                // WAITING_FOR_FINGERPRINT — keep polling
                                 pollHandler.postDelayed(self, POLL_INTERVAL_MS);
                                 break;
                         }
@@ -222,12 +234,8 @@ public class LampConnectActivity extends AppCompatActivity {
         pollHandler.post(pollRunnable);
     }
 
-    /**
-     * Parses ISO-8601 timestamps to epoch ms. API 24+ compatible (no java.time).
-     * Handles: 2026-03-06T10:00:00.000Z  and  2026-03-06T10:00:00Z
-     */
     private long parseIso8601(String ts) throws ParseException {
-        String clean  = ts.endsWith("Z") ? ts.substring(0, ts.length() - 1) : ts;
+        String clean   = ts.endsWith("Z") ? ts.substring(0, ts.length() - 1) : ts;
         String pattern = clean.contains(".") ? "yyyy-MM-dd'T'HH:mm:ss.SSS"
                 : "yyyy-MM-dd'T'HH:mm:ss";
         SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.US);
@@ -255,6 +263,7 @@ public class LampConnectActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 ivFingerprint.setVisibility(View.VISIBLE);
                 ivFingerprint.setAlpha(0.3f);
+                llSessionCard.setVisibility(View.GONE);
                 break;
 
             case CONNECTING:
@@ -268,7 +277,7 @@ public class LampConnectActivity extends AppCompatActivity {
 
             case WAITING_FINGERPRINT:
                 tvStatus.setText("Place Finger on LAMP");
-                tvSubtitle.setText("Put your finger on the LAMP device sensor. Waiting for scan…");
+                tvSubtitle.setText("Share the Session ID below with the LAMP operator, then place your finger on the sensor.");
                 btnScan.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
                 ivFingerprint.setVisibility(View.VISIBLE);
@@ -281,6 +290,7 @@ public class LampConnectActivity extends AppCompatActivity {
                 btnScan.setVisibility(View.GONE);
                 progressBar.setVisibility(View.VISIBLE);
                 ivFingerprint.setVisibility(View.GONE);
+                llSessionCard.setVisibility(View.GONE);
                 break;
 
             case ERROR:
@@ -288,6 +298,7 @@ public class LampConnectActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 btnRetry.setVisibility(View.VISIBLE);
                 ivFingerprint.setAlpha(0.3f);
+                llSessionCard.setVisibility(View.GONE);
                 break;
         }
     }
